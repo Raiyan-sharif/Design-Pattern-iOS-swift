@@ -2,16 +2,15 @@ import Foundation
 
 class Point: CustomStringConvertible
 {
-    var x: Double
-    var y: Double
+    private var x, y: Double
 
-    private init(x: Double, y: Double)
+    init(x: Double, y: Double)
     {
         self.x = x
         self.y = y
     }
 
-    private init(rho: Double, theta: Double)
+    init(rho: Double, theta: Double)
     {
         x = rho * cos(theta)
         y = rho * sin(theta)
@@ -22,25 +21,32 @@ class Point: CustomStringConvertible
         return "x = \(x), y = \(y)"
     }
 
-}
+    static let factory = PointFactory.instance
 
-class PointFactory
-{
-    static func createCartesian(x: Double, y: Double) -> Point
+    class PointFactory
     {
-        return Point(x: x, y: y)
+        private init() {}
+        static let instance = PointFactory()
+        func createCartesian(x: Double, y: Double) -> Point
+        {
+            return Point(x: x, y: y)
+        }
+
+        func createPolar(rho: Double, theta: Double) -> Point
+        {
+            return Point(rho: rho, theta: theta)
+        }
     }
 
-    static func createPolar(rho: Double, theta: Double) -> Point
-    {
-        return Point(rho: rho, theta: theta)
-    }
 }
+
+
 
 func main()
 {
-    let p = Point.createPolar(rho: 1, theta: 2)
-    print(p)
+//    let p = Point.createPolar(rho: 1, theta: 2)
+//    print(p)
+    let f = Point.factory.createCartesian(x: 1, y: 2)
 }
 
 main()

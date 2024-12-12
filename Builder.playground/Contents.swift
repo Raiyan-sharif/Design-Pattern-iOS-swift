@@ -74,8 +74,7 @@ class HtmlBuilder: CustomStringConvertible
 
 }
 
-class Person : CustomStringConvertible
-{
+class Person : CustomStringConvertible{
     // Adresss
     var streetAddress = "", postcode = "", city = ""
 
@@ -90,88 +89,84 @@ class Person : CustomStringConvertible
     }
 }
 
-class PersonBuilder
-{
+class PersonBuilder{
+
     var person = Person()
-    var lives: PersonAddressBuilder
-    {
+
+    var lives: PersonAddressBuilder {
         return PersonAddressBuilder(person)
     }
 
-    var works: PersonJobBuilder
-    {
+    var works: PersonJobBuilder {
         return PersonJobBuilder(person)
     }
 
-    func build() -> Person
-    {
+    func build() -> Person {
         return person
     }
 }
 
-class PersonJobBuilder: PersonBuilder{
-    internal init(_ person: Person) {
-        super.init()
-        self.person = person
-    }
-
-    func at(_ companyName: String) -> PersonJobBuilder
-    {
-        person.companyName = companyName
-        return self
-    }
-
-    func asA(_ position: String) -> PersonJobBuilder
-    {
-        person.position = position
-        return self
-    }
-
-    func earning(_ annualIncome: Int) -> PersonJobBuilder
-    {
-        person.annualIncome = annualIncome
-        return self
-    }
-}
-
 class PersonAddressBuilder: PersonBuilder{
+
     internal init(_ person: Person) {
         super.init()
         self.person = person
     }
-    func at(_ streetAddresss: String) -> PersonAddressBuilder
-    {
+    
+    func at(_ streetAddresss: String) -> PersonAddressBuilder {
         person.streetAddress = streetAddresss
         return self
     }
 
-    func withPostcode(_ postcode: String) -> PersonAddressBuilder
-    {
+    func withPostcode(_ postcode: String) -> PersonAddressBuilder {
         person.postcode = postcode
         return self
     }
 
-    func inCity(_ city: String) -> PersonAddressBuilder
-    {
+    func inCity(_ city: String) -> PersonAddressBuilder {
         person.city = city
         return self
     }
 }
 
+class PersonJobBuilder: PersonBuilder {
+
+    internal init(_ person: Person) {
+        super.init()
+        self.person = person
+    }
+
+    func at(_ companyName: String) -> PersonJobBuilder {
+        person.companyName = companyName
+        return self
+    }
+
+    func asA(_ position: String) -> PersonJobBuilder {
+        person.position = position
+        return self
+    }
+
+    func earning(_ annualIncome: Int) -> PersonJobBuilder {
+        person.annualIncome = annualIncome
+        return self
+    }
+}
+
+
 func main()
 {
-//    let hello = "hello"
-//    var result = "<p>\(hello)</p>"
-//    print(result)
-//
-//    let words = ["hello", "world"]
-//    result = "<ul>\n"
-//    for word in words
-//    {
-//        result.append("<li>\(word)</li>\n")
-//    }
-//    result.append("</ul>")
-//    print(result)
+    //    let hello = "hello"
+    //    var result = "<p>\(hello)</p>"
+    //    print(result)
+    //
+    //    let words = ["hello", "world"]
+    //    result = "<ul>\n"
+    //    for word in words
+    //    {
+    //        result.append("<li>\(word)</li>\n")
+    //    }
+    //    result.append("</ul>")
+    //    print(result)
 
     //Builder
     let builder = HtmlBuilder(rootName: "ul")
@@ -182,7 +177,7 @@ func main()
     //FluentBuilder
     let fluentBuilder = HtmlBuilder(rootName: "ul")
     fluentBuilder.addChildFluent(name: "li", text: "hello")
-                .addChildFluent(name: "li", text: "world")
+        .addChildFluent(name: "li", text: "world")
     print(fluentBuilder)
 
     //Faceted Builder
